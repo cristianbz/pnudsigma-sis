@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link
+		href="${facesContext.externalContext.requestContextPath}/css/sigma.css"
+		rel="stylesheet" type="text/css" />
+</h:head>
+<h:body>
+	<h:form id="frm">
+		<p:growl id="msgs" showDetail="true" />
+
+		<center>
+			<br />
+
+			<h:panelGrid style="margin:0 auto;">
+				<p:outputLabel
+					value="#{txt.lbl427}" style="font-size:16px;"></p:outputLabel>
+				<br />
+				<p:outputLabel
+					value="#{txt.lbl428}" rendered="#{ses.moduloActual=='SIS'}"></p:outputLabel>
+				<br />
+			</h:panelGrid>
+			<h:panelGrid columns="1">
+				<p:menubar  model="#{ses.menuModel}" >
+					 
+				</p:menubar>
+				<p:toolbar>
+				<f:facet name="left">
+				<h:outputText styleClass="fa fa-user"/>
+				<p:outputLabel value="  #{txt.lbl418}: #{ses.usuarioLogeado.userName}"/>
+				
+				</f:facet>
+				<f:facet name="right">
+				<p:commandLink 
+                    action="#{ses.redireccionarAPagina('','preinicio')}"
+                                         process="@this" partialSubmit="true"
+                                         async="true" global="false">
+                     <i class="fa fa-sliders"></i>
+                     <span>#{txt.btn66}</span>  
+                </p:commandLink>
+				<p:commandLink 
+                    action="#{ses.cerrarSesion()}"
+                                         process="@this" partialSubmit="true"
+                                         async="true" global="false">
+                     <i class="fa fa-power-off"></i>
+                     <span>#{txt.btn65}</span>  
+                </p:commandLink>
+				</f:facet>
+				</p:toolbar>
+				
+				
+                <p:dialog header="#{txt.msg127}" widgetVar="dlgControlNav" draggable="false"
+				modal="true" resizable="false" closable="false" responsive="true"
+				style="font-size: 10px;" visible="#{ses.usuarioLogeado==null}"
+				>
+				<h:panelGrid style="margin:0 auto;">
+					<p:commandButton value="#{txt.btn51}" action="#{ses.cerrarSesion()}"
+					process="@this" partialSubmit="true"
+					async="true" global="false"/>
+				</h:panelGrid>
+			</p:dialog>
+			</h:panelGrid>
+		</center>
+
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link
+		href="${facesContext.externalContext.requestContextPath}/css/sigma.css"
+		rel="stylesheet" type="text/css" />
+</h:head>
+<h:body>
+	<h:form id="frm" enctype="multipart/form-data">
+		<ui:include src="/resources/status_gif.xhtml" />
+		<p:growl id="msgs" showDetail="true" />
+		<center>
+			<h:panelGrid columns="3" styleClass="fondoColorSigma">
+				<p:outputLabel value="#{txt.lbl407}" />
+				<h:panelGrid width="700"></h:panelGrid>
+			</h:panelGrid>
+			<h:panelGrid id="pnlContenido" style="font-size:12px;" width="800">
+			    
+				<h:panelGrid id="pnlCriteriosDeBusqueda" columns="3">
+				<p:outputLabel value="*#{txt.lbl116}:"/>
+				<p:selectOneMenu id="acplId" value="#{report.actionPlanActual.acplId}">
+				<f:selectItems value="#{app.lstPlanesAccion}" var="ap" itemLabel="#{ap.acplName}" itemValue="#{ap.acplId}"/>
+				</p:selectOneMenu>
+				<p:message for="acplId"/>
+				<p:outputLabel value="*#{txt.lbl192}:"/>
+				<p:inputText id="anioRep" value="#{report.anioReporte}" maxlength="4"/>
+				<p:message for="anioRep"/>
+				<p:outputLabel value="*#{txt.lbl193}:"/>
+				<p:selectOneMenu id="codCatSem" value="#{report.codCatSemestre}">
+				<f:selectItems value="#{app.lstCatTiposPeriodosReporte}" var="cat" itemLabel="#{cat.cataText1}" itemValue="#{cat.cataId}"/>
+				</p:selectOneMenu>
+				<p:message for="codCatSem"/>
+				<f:verbatim/>
+				
+			    
+										
+									
+								
+				</h:panelGrid>
+				<h:panelGrid columns="1" styleClass="fondoColorSigma" width="650">
+				<p:outputLabel value="#{txt.lbl408}" />
+				<p:commandButton value="#{txt.btn13}" action="#{report.generarReportePDF1}"
+										icon="fa fa-download" ajax="false"/>
+			    </h:panelGrid>
+			    <h:panelGrid columns="1" styleClass="fondoColorSigma" width="650">
+				<p:outputLabel value="#{txt.lbl413}" />
+					<p:commandButton value="#{txt.btn13}" action="#{report.generarReportePDF2}"
+										icon="fa fa-download" ajax="false"/>
+			    </h:panelGrid>
+			    <h:panelGrid columns="1" styleClass="fondoColorSigma" width="650">
+				<p:outputLabel value="#{txt.lbl409}" />
+					<p:commandButton value="#{txt.btn13}" action="#{report.generarReportePDF3}"
+										icon="fa fa-download" ajax="false"/>
+			    </h:panelGrid>
+			    <h:panelGrid columns="1" styleClass="fondoColorSigma" width="650">
+				<p:outputLabel value="#{txt.lbl410}" />
+					<p:commandButton value="#{txt.btn13}" action="#{report.generarReportePDF4}"
+										icon="fa fa-download" ajax="false"/>
+			    </h:panelGrid>
+			    <h:panelGrid columns="1" styleClass="fondoColorSigma" width="650">
+				<p:outputLabel value="#{txt.lbl411}" />
+					<p:commandButton value="#{txt.btn13}" action="#{report.generarReportePDF5}"
+										icon="fa fa-download" ajax="false"/>
+			    </h:panelGrid>
+			    <h:panelGrid columns="1" styleClass="fondoColorSigma" width="650">
+				<p:outputLabel value="#{txt.lbl412}" />
+					<p:commandButton value="#{txt.btn13}" action="#{report.generarReportePDF6}"
+										icon="fa fa-download" ajax="false"/>
+			    </h:panelGrid>
+				
+			</h:panelGrid>
+			<br/><br/><br/><br/>
+			<h:panelGrid style="margin:0 auto;">
+				<p:commandButton id="btnVolverInicio" value="#{txt.btn24}"
+					icon="fa fa-home" action="#{ses.redireccionarAPagina('','inicio')}"
+					process="@this" />
+			</h:panelGrid>
+
+			
+
+			
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="#{txt.lbl028}" type="button"
+					styleClass="ui-confirmdialog-yes" icon="fa fa-check-square-o" />
+				<p:commandButton value="#{txt.lbl029}" type="button"
+					styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+			</p:confirmDialog>
+
+			<p:dialog header="#{txt.msg127}" widgetVar="dlgControlNav" draggable="false"
+				modal="true" resizable="false" closable="false" responsive="true"
+				style="font-size: 10px;" visible="#{!ses.accesoAMenu('SIGMA_CONS_REP1')}"
+				>
+				<h:panelGrid style="margin:0 auto;">
+					<p:commandButton value="#{txt.btn51}" action="#{ses.cerrarSesion()}"
+					process="@this" partialSubmit="true"
+					async="true" global="false"/>
+				</h:panelGrid>
+			</p:dialog>
+		</center>
+	</h:form>
+</h:body>
+</html>

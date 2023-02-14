@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<link
+		href="${facesContext.externalContext.requestContextPath}/css/sigma.css"
+		rel="stylesheet" type="text/css" />
+</h:head>
+<h:body>
+	<h:form id="frm" enctype="multipart/form-data">
+		<ui:include src="/resources/status_gif.xhtml" />
+		<p:growl id="msgs" showDetail="true" />
+		<center>
+			<h:panelGrid>
+				<h:panelGrid columns="3" styleClass="fondoColorSigma">
+					<p:outputLabel value="#{txt.lbl100}" />
+					<h:panelGrid width="500"></h:panelGrid>
+					<p:commandButton id="btnNuevo" value="#{txt.btn28}"
+						action="#{acue.prepararAcuerdoNuevo()}" icon="fa fa-plus"
+						process="@this" partialSubmit="true" async="true" global="false"
+						update=":frm:pnlAcuerdoFin" style="font-size:12px;"
+						onclick="PF('dlgEnProc').show()"
+						oncomplete="PF('dlgEnProc').hide()"
+						rendered="#{!acue.flagSoloCrear}" />
+						<p:commandButton id="btnVolverProy" value="#{txt.btn37}"
+						action="#{acue.volverARegistroProyecto()}" icon="fa fa-mail-reply"
+						process="@this" partialSubmit="true" async="true" global="false"
+						 style="font-size:12px;"
+						onclick="PF('dlgEnProc').show()"
+						oncomplete="PF('dlgEnProc').hide()"
+						rendered="#{acue.flagSoloCrear}" />
+
+				</h:panelGrid>
+				<br />
+				<h:panelGrid id="pnlAcuerdoFin" columns="3">
+					<p:outputLabel value="*#{txt.lbl103}:" for="faFuente"
+						styleClass="etiquetaFormulario"
+						style="height:40px;line-height:40px;width:200px;" />
+					<p:selectOneMenu id="faFuente"
+						value="#{acue.acuerdoActual.fusoId.fusoId}">
+						<f:selectItem itemLabel="#{txt.lbl025} ..." itemValue="#{null}" />
+						<f:selectItems value="#{acue.listaFinanciadores}" var="fuso"
+							itemLabel="#{fuso.fusoName}" itemValue="#{fuso.fusoId}">
+						</f:selectItems>
+					</p:selectOneMenu>
+					<p:message for="faFuente" />
+
+					<p:outputLabel value="*#{txt.lbl105}:" for="faCode"
+						styleClass="etiquetaFormulario"
+						style="height:40px;line-height:40px;width:200px;" />
+					<p:inputText id="faCode" value="#{acue.acuerdoActual.fiagCode}"
+						maxlength="11" size="10" />
+					<p:message for="faCode" />
+
+					<p:outputLabel value="*#{txt.lbl106}:" for="faTitle"
+						styleClass="etiquetaFormulario"
+						style="height:40px;line-height:40px;width:200px;" />
+					<p:inputText id="faTitle" value="#{acue.acuerdoActual.fiagTitle}"
+						maxlength="100" size="40" />
+					<p:message for="faTitle" />
+
+					<p:outputLabel value="*#{txt.lbl107}:" for="faSignDate"
+						styleClass="etiquetaFormulario"
+						style="height:40px;line-height:40px;width:200px;" />
+					<p:calendar id="faSignDate"
+						value="#{acue.acuerdoActual.fiagSignDate}" pattern="dd/MM/yyyy" 
+						navigator="true"/>
+					<p:message for="faSignDate" />
+
+					<p:outputLabel value="*#{txt.lbl108}:" for="faFromDate"
+						styleClass="etiquetaFormulario"
+						style="height:40px;line-height:40px;width:200px;" />
+					<p:calendar id="faFromDate"
+						value="#{acue.acuerdoActual.fiagFromDate}" pattern="dd/MM/yyyy" 
+						navigator="true"/>
+					<p:message for="faFromDate" />
+
+					<p:outputLabel value="*#{txt.lbl109}:" for="faToDate"
+						styleClass="etiquetaFormulario"
+						style="height:40px;line-height:40px;width:200px;" />
+					<p:calendar id="faToDate" value="#{acue.acuerdoActual.fiagToDate}"
+						pattern="dd/MM/yyyy" 
+						navigator="true"/>
+					<p:message for="faToDate" />
+
+					<p:outputLabel value="*#{txt.lbl111}:" for="faAmount"
+						styleClass="etiquetaFormulario"
+						style="height:40px;line-height:40px;width:200px;" />
+					<p:inputText id="faAmount" value="#{acue.acuerdoActual.fiagAmount}"
+						maxlength="20" size="20" />
+					<p:message for="faAmount" />
+
+					<p:outputLabel value="*#{txt.lbl104}:" for="faAdmin"
+						styleClass="etiquetaFormulario"
+						style="height:40px;line-height:40px;width:200px;" />
+					<p:selectOneMenu id="faAdmin"
+						value="#{acue.acuerdoActual.cataAdminId.cataId}">
+						<f:selectItem itemLabel="#{txt.lbl025} ..." itemValue="#{null}" />
+						<f:selectItems value="#{app.lstCatAdministrador}" var="cat"
+							itemLabel="#{cat.cataText1}" itemValue="#{cat.cataId}">
+						</f:selectItems>
+					</p:selectOneMenu>
+					<p:message for="faAdmin" />
+
+					<p:outputLabel value="#{txt.lbl110}:" for="faConRec"
+						styleClass="etiquetaFormulario"
+						style="height:40px;line-height:40px;width:200px;" />
+					<p:selectBooleanCheckbox id="faConRec"
+						value="#{acue.acuerdoActual.fiagFiscalResources}" />
+					<p:message for="faConRec" />
+
+
+				</h:panelGrid>
+				<h:panelGrid style="margin:0 auto;">
+					<p:commandButton value="#{txt.btn02}" icon="fa fa-save"
+						action="#{acue.guardarAcuerdo()}" partialSubmit="true"
+						process="@this,pnlAcuerdoFin" async="true" global="false"
+						update="pnlAcuerdoFin,pnlListaAcuFin,msgs"
+						onclick="PF('dlgEnProc').show()"
+						oncomplete="PF('dlgEnProc').hide()" />
+				</h:panelGrid>
+				<h:panelGrid id="pnlListaAcuFin" width="800"
+				style="font-size:10px;">
+					<p:dataTable id="lstAcuerdos" value="#{acue.listaAcuerdos}"
+						var="acuerdo" emptyMessage="#{txt.lbl047}">
+						<p:column headerText="#{txt.lbl105}" width="50">
+							<p:outputLabel value="#{acuerdo.fiagCode}" />
+						</p:column>
+						<p:column headerText="#{txt.lbl103}" width="150">
+							<p:outputLabel value="#{acuerdo.fusoId.fusoName}" />
+						</p:column>
+						<p:column headerText="#{txt.lbl107}" width="65">
+							<p:outputLabel value="#{acuerdo.fiagSignDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:outputLabel>
+						</p:column>
+						<p:column headerText="#{txt.lbl108}" width="65">
+							<p:outputLabel value="#{acuerdo.fiagFromDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:outputLabel>
+						</p:column>
+						<p:column headerText="#{txt.lbl109}" width="65">
+							<p:outputLabel value="#{acuerdo.fiagToDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</p:outputLabel>
+						</p:column>
+						<p:column headerText="#{txt.lbl044}" width="70">
+							<p:commandButton icon="fa fa-arrow-circle-up"
+								action="#{acue.seleccionarAcuerdoParaAdjuntarArchivo(acuerdo)}"
+								process="@this" async="true" global="false" partialSubmit="true"
+								update=":frm:pnlDialogos" title="#{txt.btn12}" />
+
+							<p:commandButton async="true" global="false" ajax="false"
+								icon="fa fa-arrow-circle-down"
+								actionListener="#{acue.descargarArchivoAcuerdo(acuerdo.docuId)}"
+								rendered="#{acuerdo.docuId!=null}" title="#{txt.btn13}">
+								<p:fileDownload value="#{acue.acuerdoADescargar}" />
+							</p:commandButton>
+						</p:column>
+						<p:column width="60">
+							<p:commandButton id="btnEditConv"
+								action="#{acue.seleccionarAcuerdoAEditar(acuerdo)}"
+								icon="fa fa-pencil" title="#{txt.btn15}" process="@this"
+								partialSubmit="true" async="true" global="false"
+								update=":frm:pnlAcuerdoFin" onclick="PF('dlgEnProc').show()"
+								oncomplete="PF('dlgEnProc').hide()" />
+
+							<p:commandButton icon="fa fa-trash"
+								action="#{acue.eliminarAcuerdo(acuerdo)}" process="@this"
+								async="true" global="false" partialSubmit="true"
+								title="#{txt.btn14}"
+								update=":frm:pnlAcuerdoFin,:frm:pnlListaAcuFin,:frm:msgs"
+								onclick="PF('dlgEnProc').show()"
+								oncomplete="PF('dlgEnProc').hide()">
+								<p:confirm header="#{txt.lbl030}" message="#{txt.lbl112}"
+									icon="pi pi-exclamation-triangle" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+				<h:panelGrid id="pnlDialogos">
+					<p:dialog header="#{txt.lbl059}" widgetVar="dlgCargarArchivoAcuerdo"
+						closable="true" modal="true">
+						<h:panelGrid>
+							<p:fileUpload id="fuDocConv" auto="true" label="#{txt.btn11}"
+								listener="#{acue.adjuntarArchivoEnAcuerdo}"
+								update=":frm:msgs,:frm:pnlListaAcuFin" sizeLimit="30000000"
+								allowTypes="/(\.|\/)(pdf|doc?x|jpe?g|png)$/"
+								invalidSizeMessage="#{txt.lbl048}" />
+						</h:panelGrid>
+					</p:dialog>
+				</h:panelGrid>
+				<h:panelGrid style="margin:0 auto;">
+					<p:commandButton id="btnVolverInicio" value="#{txt.btn24}"
+						icon="fa fa-home"
+						action="#{ses.redireccionarAPagina('','inicio')}" process="@this" />
+				</h:panelGrid>
+			</h:panelGrid>
+			
+			<p:dialog header="#{txt.msg127}" widgetVar="dlgControlNav" draggable="false"
+				modal="true" resizable="false" closable="false" responsive="true"
+				style="font-size: 10px;" visible="#{!ses.accesoAMenu('SIGMA_ADM_ACUF')}"
+				>
+				<h:panelGrid style="margin:0 auto;">
+					<p:commandButton value="#{txt.btn51}" action="#{ses.cerrarSesion()}"
+					process="@this" partialSubmit="true"
+					async="true" global="false"/>
+				</h:panelGrid>
+			</p:dialog>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="#{txt.lbl028}" type="button"
+					styleClass="ui-confirmdialog-yes" icon="fa fa-check-square-o" />
+				<p:commandButton value="#{txt.lbl029}" type="button"
+					styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+			</p:confirmDialog>
+		</center>
+	</h:form>
+</h:body>
+</html>

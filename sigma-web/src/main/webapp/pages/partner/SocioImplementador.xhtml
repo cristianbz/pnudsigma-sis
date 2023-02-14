@@ -1,0 +1,388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<link
+		href="${facesContext.externalContext.requestContextPath}/css/sigma.css"
+		rel="stylesheet" type="text/css" />
+</h:head>
+<h:body>
+	<h:form id="frm" enctype="multipart/form-data">
+		<ui:include src="/resources/status_gif.xhtml" />
+		<p:growl id="msgs" showDetail="true" />
+		<center>
+			<h:panelGrid>
+				<h:panelGrid id="pnlBusquedaSocioImpl" width="800">
+					<h:panelGrid id="pnlRendBusq1">
+						<h:panelGrid columns="3" styleClass="fondoColorSigma">
+							<p:outputLabel value="#{txt.lbl058}" />
+							<h:panelGrid width="450"></h:panelGrid>
+							<p:commandButton id="btnNuevo" value="#{txt.btn19}"
+								action="#{soci.prepararNuevoSocioImp()}"
+								icon="fa fa-plus" process="@this" partialSubmit="true"
+								async="true" global="false"
+								update=":frm:pnlCrearEditarSocio,:frm:lstSociosImpl,:frm:nomBusq"
+								style="font-size:12px;" onclick="PF('dlgEnProc').show()"
+								oncomplete="PF('dlgEnProc').hide()"
+								rendered="#{!soci.flagSoloCrear}" />
+							<p:commandButton id="btnVolverProy" value="#{txt.btn37}"
+								action="#{soci.volverARegistroProyecto()}"
+								icon="fa fa-mail-reply" process="@this" partialSubmit="true"
+								async="true" global="false"
+								update=":frm:pnlCrearEditarSocio,:frm:lstSociosImpl,:frm:nomBusq"
+								style="font-size:12px;" onclick="PF('dlgEnProc').show()"
+								oncomplete="PF('dlgEnProc').hide()"
+								rendered="#{soci.flagSoloCrear}" />
+						</h:panelGrid>
+						<h:panelGrid columns="3" rendered="#{!soci.flagSoloCrear}">
+							<p:outputLabel value="#{txt.lbl057}:" style="font-size:12px;"></p:outputLabel>
+							<p:inputText id="nomBusq" value="#{soci.nombreSocioBusq}"
+								size="60" maxlength="300"></p:inputText>
+							<p:commandButton value="#{txt.btn18}"
+								action="#{soci.listarSociosImplementadoresPorNombre()}"
+								process="@this,nomBusq" partialSubmit="true" async="true"
+								global="false" update="lstSociosImpl" style="font-size:12px;"
+								onclick="PF('dlgEnProc').show()"
+								oncomplete="PF('dlgEnProc').hide()"></p:commandButton>
+						</h:panelGrid>
+						<h:panelGrid  rendered="#{!soci.flagSoloCrear}">
+							<p:dataTable id="lstSociosImpl"
+								value="#{soci.listaSociosImplementadores}" var="socImp"
+								emptyMessage="#{txt.lbl047}">
+								<p:column width="150"  headerText="#{txt.lbl060}">
+									<p:outputLabel value="#{socImp.partIdNumber}"></p:outputLabel>
+								</p:column>
+								<p:column  headerText="#{txt.lbl018}">
+									<p:outputLabel value="#{socImp.partName}"></p:outputLabel>
+								</p:column>
+								<p:column width="100">
+									<p:commandButton id="btnEditSocImp"
+										action="#{soci.seleccionarSocioImplAEditar(socImp)}"
+										icon="fa fa-pencil" title="#{txt.btn15}" process="@this"
+										partialSubmit="true" async="true" global="false"
+										update=":frm:pnlCrearEditarSocio"
+										onclick="PF('dlgEnProc').show()"
+										oncomplete="PF('dlgEnProc').hide()" />
+										<p:commandButton icon="fa fa-trash"
+								action="#{soci.eliminarSocioImplementador(socImp)}" process="@this"
+								async="true" global="false" partialSubmit="true"
+								title="#{txt.btn14}"
+								update=":frm:lstSociosImpl,:frm:msgs"
+								onclick="PF('dlgEnProc').show()"
+								oncomplete="PF('dlgEnProc').hide()">
+								<p:confirm header="#{txt.lbl030}" message="#{txt.lbl075}"
+									icon="pi pi-exclamation-triangle" />
+							</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</h:panelGrid>
+					</h:panelGrid>
+				</h:panelGrid>
+				<h:panelGrid id="pnlCrearEditarSocio">
+					<h:panelGrid id="pnlRendPartner"
+						rendered="#{soci.flagCrearEditarSocioImp}">
+						<p:panel>
+						<h:panelGrid id="pnlPartner" columns="3">
+							
+							
+							
+							<p:outputLabel value="*#{txt.lbl019}:" for="partType1"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;" />
+							<p:selectOneMenu id="partType1"
+								value="#{soci.socioImplementadorActual.cataId.cataId}">
+								<f:selectItem itemLabel="#{txt.lbl025} ..." itemValue="#{null}" />
+								<f:selectItems value="#{app.lstCatTipoSocImpl}" var="tipo"
+									itemLabel="#{tipo.cataText1}" itemValue="#{tipo.cataId}">
+								</f:selectItems>
+							</p:selectOneMenu>
+							<p:message for="partType1" />
+							
+							<p:outputLabel value="*#{txt.lbl050}:" for="partRuc"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;" />
+							<p:inputText id="partRuc"
+								value="#{soci.socioImplementadorActual.partIdNumber}"
+								maxlength="13" size="23" autocomplete="one-time-code"
+								onkeypress="if( (event.which &lt; 48 || event.which &gt; 57) ) return false;" />
+							<h:panelGrid>
+							<p:watermark for="partRuc" value="#{txt.lbl416}" id="watermark1" />
+							<p:commandButton id="btnBusqSRI" action="#{soci.obtenerDatosSocioImplementadorDesdeSri()}"
+							process="@this,partRuc" partialSubmit="true" async="true" global="false"
+							value="SRI" style="display:none;"
+							onclick="PF('dlgEnProc').show()"
+								oncomplete="PF('dlgEnProc').hide()"
+								update="partName,partConPerName,partContactPersonPos,partContactPersonEmail,partConPerPhone,msgs"/>
+							<p:defaultCommand target="btnBusqSRI"/>
+							<p:message for="partRuc" />
+							</h:panelGrid>
+
+							<p:outputLabel value="*#{txt.lbl018}:" for="partName"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;" />
+							<p:inputText id="partName"
+								value="#{soci.socioImplementadorActual.partName}"
+								maxlength="200" size="42" />
+							<p:message for="partName" />
+
+							<p:outputLabel value="#{txt.lbl051}:" for="partWebSite"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;" />
+							<p:inputText id="partWebSite"
+								value="#{soci.socioImplementadorActual.partWebsite}"
+								maxlength="100" size="42" />
+							<p:message for="partWebSite" />
+							<p:outputLabel value="*#{txt.lbl052}:" for="partConPerName"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;" />
+							<p:inputText id="partConPerName"
+								value="#{soci.socioImplementadorActual.partContactPerson}"
+								maxlength="50" size="42" />
+							<p:message for="partConPerName" />
+							<p:outputLabel value="#{txt.lbl053}:" for="partContactPersonPos"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:20px;width:200px;" />
+							<p:inputText id="partContactPersonPos"
+								value="#{soci.socioImplementadorActual.partContactPersonPosition}"
+								maxlength="100" size="42" />
+							<p:message for="partContactPersonPos" />
+							<p:outputLabel value="#{txt.lbl054}:"
+								for="partContactPersonEmail" styleClass="etiquetaFormulario"
+								style="height:40px;line-height:20px;width:200px;" />
+							<p:inputText id="partContactPersonEmail"
+								value="#{soci.socioImplementadorActual.partContactPersonEmail}"
+								maxlength="100" />
+							<p:message for="partContactPersonEmail" />
+							<p:outputLabel value="*#{txt.lbl055}:" for="partConPerPhone"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;" />
+							<p:inputText id="partConPerPhone"
+								value="#{soci.socioImplementadorActual.partPhones}"
+								maxlength="20" />
+							<p:message for="partConPerPhone" />
+							<p:outputLabel value="*#{txt.lbl339}:" for="partSigla"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;" />
+							<p:inputText id="partSigla"
+								value="#{soci.socioImplementadorActual.partAcronym}"
+								maxlength="20" />
+							<p:message for="partSigla" />
+							
+						</h:panelGrid>
+						<h:panelGrid style="margin:0 auto;">
+							<p:commandButton value="#{txt.btn02}" icon="fa fa-save"
+								action="#{soci.guardarSocioImplementador()}"
+								partialSubmit="true" process="@this,pnlPartner" async="true"
+								global="false" update="pnlPartner,pnlReqPartner,msgs"
+								onclick="PF('dlgEnProc').show()"
+								oncomplete="PF('dlgEnProc').hide()"
+								style="display:block;margin:0 auto;text-align:center;" ></p:commandButton>
+						</h:panelGrid>
+						<h:panelGrid id="pnlReqPartner" width="800">
+							<p:dataTable id="lstReqPartner"
+								value="#{soci.listaRequerimientosSocioImplActual}" var="req"
+								emptyMessage="#{txt.lbl047}">
+								<f:facet name="header">#{txt.lbl061}</f:facet>
+								<p:column>
+									<p:outputLabel value="#{req.cataId.cataText2}"></p:outputLabel>
+										<p:commandLink
+										rendered="#{req.cataId.catyId.catyMnemonic=='REQUISITO_SOCIO_1' and req.cataId.cataNumber==2}"
+										action="#{soci.prepararGeneracionDeclaracion()}"
+										process="@this" partialSubmit="true" async="true"
+										global="false" update=":frm:pnlDialogos"
+										style="font-size:10px;">
+										#{txt.btn22}
+										</p:commandLink>
+								</p:column>
+								<p:column width="100" headerText="#{txt.lbl044}">
+									<p:commandButton icon="fa fa-arrow-up" title="#{txt.btn12}"
+										action="#{soci.seleccionarRequisitoParaAdjuntarArchivo(req)}"
+										process="@this" async="true" global="false"
+										partialSubmit="true" update=":frm:pnlDialogos"/>
+										<p:commandButton async="true"
+											global="false" ajax="false" icon="fa fa-arrow-down"
+											actionListener="#{soci.descargarArchivoRequisito(req.docuId)}"
+											rendered="#{req.docuId!=null}"
+											title="#{txt.btn13}">
+											<p:fileDownload
+												value="#{soci.archivoRequisitoADescargar}" />
+										</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</h:panelGrid>
+						</p:panel>
+					</h:panelGrid>
+					
+				</h:panelGrid>
+				<h:panelGrid id="pnlDialogos">
+					<p:dialog header="#{txt.lbl059}" widgetVar="dlgCargarArchivoReq"
+						closable="true" modal="true">
+						<h:panelGrid>
+							<p:fileUpload id="fuReqSocImpl" auto="true" label="#{txt.btn11}"
+								listener="#{soci.adjuntarArchivoEnRequisito}"
+								update=":frm:msgs,:frm:pnlReqPartner" sizeLimit="30000000"
+								allowTypes="/(\.|\/)(pdf|doc?x|jpe?g|png)$/"
+								invalidSizeMessage="#{txt.lbl048}" />
+						</h:panelGrid>
+					</p:dialog>
+					<p:dialog header="#{txt.lbl062}" widgetVar="dlgDatosDeclaracion"
+						closable="true" modal="true">
+						<h:panelGrid >
+							<h:panelGrid id="pnlDatosDec" columns="2">
+								<p:outputLabel value="#{txt.lbl063}:"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;"></p:outputLabel>
+								<p:selectOneMenu value="#{soci.decCodProvincia}">
+									<f:selectItem itemValue="#{null}" itemLabel="#{txt.lbl025} ..." />
+									<f:selectItems value="#{app.lstGeoLocProvincias}" var="prov"
+										itemLabel="#{prov[0]}" itemValue="#{prov[1]}"></f:selectItems>
+									<p:ajax event="change"
+										listener="#{soci.listarCantonesPorProvincia()}"
+										process="@this" partialSubmit="true" async="true"
+										global="false" update=":frm:decCiudad"></p:ajax>
+								</p:selectOneMenu>
+
+								<p:outputLabel value="#{txt.lbl064}:"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;"></p:outputLabel>
+								<p:selectOneMenu id="decCiudad" value="#{soci.decDescCiudad}">
+								<f:selectItem itemValue="#{null}" itemLabel="#{txt.lbl025} ..." />
+									<f:selectItems value="#{soci.decLstCiudadesPorProv}" var="ciu"
+										itemLabel="#{ciu[0]}" itemValue="#{ciu[0]}"></f:selectItems>
+								</p:selectOneMenu>
+								<p:outputLabel value="#{txt.lbl052}:"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;"></p:outputLabel>
+								<p:inputText value="#{soci.socioImplementadorActual.partContactPerson}"
+								disabled="true" ></p:inputText>
+								<p:outputLabel value="#{txt.lbl053}:"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:20px;width:200px;"></p:outputLabel>
+								<p:inputText value="#{soci.socioImplementadorActual.partContactPersonPosition}"
+								disabled="true" ></p:inputText>
+								
+								<p:outputLabel value="#{txt.lbl065}:"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;"></p:outputLabel>
+								<p:inputText value="#{soci.decNacionalidad}" size="20"></p:inputText>
+
+								<p:outputLabel value="#{txt.lbl066}:"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;"></p:outputLabel>
+								<p:selectOneMenu id="decTipoId" value="#{soci.decDescTipoId}">
+								<f:selectItem itemValue="#{null}" itemLabel="#{txt.lbl025} ..." />
+									<f:selectItems value="#{app.lstCatDecTipoId}" var="tId"
+										itemLabel="#{tId.cataText1}" itemValue="#{tId.cataText2}"></f:selectItems>
+								</p:selectOneMenu>
+
+								<p:outputLabel value="#{txt.lbl067}:"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;"></p:outputLabel>
+								<p:inputText value="#{soci.decNumId}" size="20" maxlength="13"></p:inputText>
+
+								<p:outputLabel value="#{txt.lbl068}:"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;"></p:outputLabel>
+								<p:selectOneMenu id="decEstCiv" value="#{soci.decDesEstCivil}">
+								<f:selectItem itemValue="#{null}" itemLabel="#{txt.lbl025} ..." />
+									<f:selectItems value="#{app.lstCatDecEstCivil}" var="ec"
+										itemLabel="#{ec.cataText1}" itemValue="#{ec.cataText1}"></f:selectItems>
+								</p:selectOneMenu>
+
+								<p:outputLabel value="#{txt.lbl069}:"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;"></p:outputLabel>
+								<p:inputTextarea value="#{soci.decTituloPdi}" rows="2" cols="25" />
+
+								<p:outputLabel value="#{txt.lbl070}:"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;"></p:outputLabel>
+								<p:inputTextarea value="#{soci.decZonInterv}" rows="2" cols="25" />
+
+								<p:outputLabel value="#{txt.lbl071}:"
+								styleClass="etiquetaFormulario"
+								style="height:40px;line-height:40px;width:200px;"></p:outputLabel>
+								<p:calendar value="#{soci.decFechaPdi}" pattern="dd/MM/yyyy"></p:calendar>
+							</h:panelGrid>
+							<p:commandButton id="btnGenDec" value="#{txt.btn20}"
+								action="#{soci.generarDeclaracion()}"
+								icon="fa fa-check-square-o" title="#{txt.btn20}"
+								process="@this,:frm:pnlDatosDec" partialSubmit="true"
+								async="true" global="false" update=":frm:pnlDialogos"
+								onclick="PF('dlgEnProc').show()"
+								oncomplete="PF('dlgEnProc').hide()"
+								style="display:block;margin:0 auto;text-align:center;" />
+							
+						</h:panelGrid>
+						
+
+					</p:dialog>
+
+					<p:dialog widgetVar="dlgDeclaracion" closable="false" modal="true">
+						<h:panelGrid width="800" >
+							<p:panel id="pnlDeclaracion">
+							<h:panelGrid columns="3">
+							<h:panelGrid width="200"/>
+							<p:graphicImage rendered="true" id="img_logo_maae" value="/images/logo_maate_2022.png"
+                            width="390"/>
+							<h:panelGrid width="200"/>
+							</h:panelGrid>
+							
+								<p:outputLabel value="#{txt.lbl072}"
+									style="font-weight:bold;font-size:18px;display:block;margin:0 auto;text-align:center;"></p:outputLabel>
+								<br />
+								<br />
+								<p:outputLabel value="#{soci.decTextoTotal}" escape="false"></p:outputLabel>
+								<br/><br/>
+								<p:outputLabel value="_________________________"
+									style="font-weight:bold;display:block;margin:0 auto;text-align:center;"></p:outputLabel>
+									<br/>
+									<p:outputLabel value="#{txt.lbl073}"
+									style="font-weight:bold;display:block;margin:0 auto;text-align:center;"></p:outputLabel>
+							</p:panel>
+						</h:panelGrid>
+						<h:panelGrid columns="2" style="margin:0 auto;">
+						<p:commandButton value="#{txt.btn21}" type="button" icon="fa fa-print"
+							>
+							<p:printer target="pnlDeclaracion" />
+						</p:commandButton>
+						<p:commandButton id="btnVolverDatDec" value="#{txt.btn23}"
+								action="#{soci.volveraDatosDeclaracion()}"
+								icon="fa fa-mail-reply" 
+								process="@this" partialSubmit="true"
+								async="true" global="false" update=":frm:pnlDialogos"
+								onclick="PF('dlgEnProc').show()"
+								oncomplete="PF('dlgEnProc').hide()"
+								 />
+						</h:panelGrid>
+					</p:dialog>
+				</h:panelGrid>
+				<h:panelGrid style="margin:0 auto;">
+				<p:commandButton id="btnVolverInicio" value="#{txt.btn24}" icon="fa fa-home"
+				action="#{ses.redireccionarAPagina('','inicio')}" process="@this"/>
+				</h:panelGrid>
+			</h:panelGrid>
+		
+		<p:dialog header="#{txt.msg127}" widgetVar="dlgControlNav" draggable="false"
+				modal="true" resizable="false" closable="false" responsive="true"
+				style="font-size: 10px;" visible="#{!ses.accesoAMenu('SIGMA_ADM_SOCIMP')}"
+				>
+				<h:panelGrid style="margin:0 auto;">
+					<p:commandButton value="#{txt.btn51}" action="#{ses.cerrarSesion()}"
+					process="@this" partialSubmit="true"
+					async="true" global="false"/>
+				</h:panelGrid>
+			</p:dialog>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="#{txt.lbl028}" type="button"
+					styleClass="ui-confirmdialog-yes" icon="fa fa-check-square-o" />
+				<p:commandButton value="#{txt.lbl029}" type="button"
+					styleClass="ui-confirmdialog-no" icon="fa fa-close" />
+			</p:confirmDialog>
+		</center>
+	</h:form>
+</h:body>
+</html>
