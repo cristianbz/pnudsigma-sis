@@ -8,10 +8,11 @@ package ec.gob.ambiente.sigma.ejb.entidades;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,6 +26,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import ec.gob.ambiente.sigma.ejb.entidades.sis.AdvanceExecutionSafeguards;
+import ec.gob.ambiente.sigma.ejb.entidades.sis.Documentslog;
+import ec.gob.ambiente.sigma.ejb.entidades.sis.ProjectQuestions;
+import ec.gob.ambiente.sigma.ejb.entidades.sis.ProjectsGenderInfo;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -139,6 +147,45 @@ public class Project implements Serializable {
     @JoinColumn(name = "proj_parent_id", referencedColumnName = "proj_id")
     @ManyToOne
     private Project projParentId;
+//    @Getter
+//	@Setter
+//	@OneToMany(mappedBy = "projects", fetch = FetchType.LAZY)
+//	private List<ProjectsCobenefits> projectsCobenefitsList;
+	
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "psobParentId", fetch = FetchType.LAZY)
+	private List<ProjectsSpecificObjective> projectsSpecificObjectivesList;
+	
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "projId", fetch = FetchType.LAZY)
+	private List<ProjectsRisk> projectsRisksList;
+	
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "projects", fetch = FetchType.LAZY)
+	private List<AdvanceExecutionSafeguards> advanceExecutionSafeguardsList;
+	
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "projects", fetch = FetchType.LAZY)
+	private List<ProjectsGenderInfo> projectsGenderInfoList;
+	
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "projects", fetch = FetchType.LAZY)
+	private List<ProjectQuestions> projectQuestionsList;
+	
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "projects", fetch = FetchType.LAZY)
+	private List<Documentslog> documentslogList;
+		
+	@Getter
+	@Setter
+	@OneToMany(mappedBy = "projId", fetch = FetchType.LAZY)
+	private List<ProjectsStrategicPartner> projectsStrategicPartnersList;
     
 
     public Project() {

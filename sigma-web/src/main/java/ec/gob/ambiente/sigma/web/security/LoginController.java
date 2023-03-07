@@ -13,11 +13,12 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-
+import org.apache.log4j.Logger;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.menu.DefaultMenuItem;
@@ -36,6 +37,8 @@ import ec.gob.ambiente.sigma.ejb.services.MenuFacade;
 import ec.gob.ambiente.sigma.ejb.services.RoleFacade;
 import ec.gob.ambiente.sigma.ejb.services.RolesUserFacade;
 import ec.gob.ambiente.sigma.web.utils.JsfUtil;
+import lombok.Getter;
+import lombok.Setter;
 
 
 
@@ -44,7 +47,7 @@ import ec.gob.ambiente.sigma.web.utils.JsfUtil;
 public class LoginController implements Serializable {
 	
 	private static final long serialVersionUID = -8722324921427912257L;
-	
+	private static final Logger LOG = Logger.getLogger(LoginController.class);
 	@EJB
 	private MenuFacade menuFacade;
 	
@@ -58,6 +61,8 @@ public class LoginController implements Serializable {
 	private RolesUserFacade rolesUserFacade;
 	
 	@Inject
+	@Getter
+	@Setter
 	private LoginBean loginBean;
 	
 	/*@EJB
@@ -77,7 +82,7 @@ public class LoginController implements Serializable {
 	private boolean loggedIn = false;
 	private String userEmail;
 	private String prefijoRoles;
-	
+	private ExternalContext ec;
 	
 	@PostConstruct
 	private void init() throws RuntimeException, IOException, ServletException
@@ -601,5 +606,19 @@ public class LoginController implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
+	}
+	///AUMENTO CBAEZ
+	/**
+	 * Valida si la sesion esta activa
+	 */
+	public void validarSesion() {
+		try {
+			if (!(getLoginBean().getSesion()!=null && (boolean) getLoginBean().getSesion().getAttribute("logeado"))) {
+				ec=FacesContext.getCurrentInstance().getExternalContext();
+				ec.redirect(ec.getRequestContextPath() + "/index.xhtml");
+			}
+		}catch(IOException e) {
+			LOG.error(new StringBuilder().append(this.getClass().getName() + "." + "validarSesion" + ": ").append(e.getMessage()));
+		}
 	}
 }

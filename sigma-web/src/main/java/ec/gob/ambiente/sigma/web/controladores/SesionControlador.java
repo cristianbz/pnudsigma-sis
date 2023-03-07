@@ -31,6 +31,8 @@ import org.primefaces.model.menu.MenuModel;
 import ec.gob.ambiente.client.SuiaServices;
 import ec.gob.ambiente.client.SuiaServices_Service;
 import ec.gob.ambiente.sigma.ejb.entidades.User;
+import ec.gob.ambiente.sigma.ejb.facades.ProjectFacade;
+import ec.gob.ambiente.sigma.ejb.facades.ProjectsStrategicPartnerFacade;
 import ec.gob.ambiente.sigma.ejb.facades.UserFacade;
 import ec.gob.ambiente.sigma.ejb.model.Menu;
 import ec.gob.ambiente.sigma.ejb.model.MenuRole;
@@ -41,8 +43,11 @@ import ec.gob.ambiente.sigma.ejb.services.MenuFacade;
 import ec.gob.ambiente.sigma.ejb.services.MenuRoleFacade;
 import ec.gob.ambiente.sigma.ejb.services.RoleFacade;
 import ec.gob.ambiente.sigma.ejb.services.RolesUserFacade;
+import ec.gob.ambiente.sigma.web.security.LoginBean;
 import ec.gob.ambiente.sigma.web.utils.JsfUtil;
+import ec.gob.ambiente.sigma.web.utils.sis.enumeraciones.TipoRolesUsuarioEnum;
 import ec.gov.sri.wsconsultacontribuyente.ContribuyenteCompleto;
+import lombok.Getter;
 
 /**
  *
@@ -65,6 +70,12 @@ public class SesionControlador implements Serializable {
 
     @Inject
     private AplicacionControlador appBean;
+	@EJB
+	@Getter
+	private ProjectFacade projectsFacade;
+	@EJB
+	@Getter
+	private ProjectsStrategicPartnerFacade projectsStrategicPartnersFacade;
 
     private User usuarioLogeado;
     private List<RolesUser> listaRolesDeUsuarioLogeado;
@@ -82,6 +93,10 @@ public class SesionControlador implements Serializable {
     private boolean tieneRolSIGMA;
     private boolean tieneRolSIS;
     private String moduloActual;
+    @Inject
+	@Getter
+	private LoginBean loginBean;
+    private ExternalContext ec;
 
     /**
      * Creates a new instance of SesionControlador
@@ -112,7 +127,12 @@ public class SesionControlador implements Serializable {
                     username = "";
                     password = "";
                 } else {
+                	getLoginBean().setUser(usuarioLogeado);
+                	ec = FacesContext.getCurrentInstance().getExternalContext();
+    				getLoginBean().setSesion( (HttpSession)ec.getSession(true));
+    				getLoginBean().getSesion().setAttribute("logeado", true);
                     listaRolesDeUsuarioLogeado = rolUserFacade.listarRolesDeUsuario(usuarioLogeado);
+                    getLoginBean().setListaRolesUsuario(listaRolesDeUsuarioLogeado);
                     mostrarIngresosSegunRoles();
                     redireccionarAPagina("", "preinicio");
                    
@@ -156,6 +176,7 @@ public class SesionControlador implements Serializable {
     		listaMenusDeRolesDeUsuarioLogeado=menuRolFacade.listarMenusPorRol(rolesDeSubSis);
             llenarMenu();
             moduloActual=subsis;
+            controlRolesSis();
     		redireccionarAPagina("", "inicio");
     	}catch (Exception ex) {
             LOG.log(Level.SEVERE, null, ex);
@@ -647,8 +668,42 @@ public class SesionControlador implements Serializable {
 		this.moduloActual = moduloActual;
 	}
 
+	////////////////SIS////////////////////////////
 	
-	
+	public void controlRolesSis(){
+		try{
+		if(getLoginBean().getListaRolesUsuario().size()>1){
+			for (RolesUser ru : getLoginBean().getListaRolesUsuario()) {						
+				if(ru.getRole().getRoleName().equals(TipoRolesUsuarioEnum.SIS_socio_implementador.getEtiqueta())){
+					getLoginBean().setListaProyectosDelSocioImplementador(getProjectsFacade().listarProyectosSocioImplementador(ru.getRousDescription()));
+					getLoginBean().setTipoRol(2);
+					break;
+				}
+			}
+		}else{
+			for (RolesUser ru : getLoginBean().getListaRolesUsuario()) {
+				if(ru.getRole().getRoleName().equals(TipoRolesUsuarioEnum.SIS_tecnico.getEtiqueta())){
+					getLoginBean().setTipoRol(4);
+					break;
+				}else if(ru.getRole().getRoleName().equals(TipoRolesUsuarioEnum.SIS_socio_estrategico.getEtiqueta())){
+					getLoginBean().setListaProyectosDelSocioEstrategico(getProjectsStrategicPartnersFacade().listaProyectosSocioEstrategico(ru.getRousDescription()));
+					getLoginBean().setTipoRol(3);
+					break;
+				}else if(ru.getRole().getRoleName().equals(TipoRolesUsuarioEnum.SIS_socio_implementador.getEtiqueta())){
+					getLoginBean().setListaProyectosDelSocioImplementador(getProjectsFacade().listarProyectosSocioImplementador(ru.getRousDescription()));
+					getLoginBean().setTipoRol(2);
+					break;
+				}else{
+					getLoginBean().setTipoRol(1);
+					break;
+				}
+			}
+			
+		}
+		}catch(Exception e){
+			LOG.log(Level.SEVERE, null, e);
+		}
+	}
 
 	/*
 	 *

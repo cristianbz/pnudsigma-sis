@@ -84,5 +84,15 @@ public class PartnerFacade extends AbstractFacade<Partner, Integer> {
 		Map<String, Object> camposCondicion=new HashMap<String, Object>();
 		return findByCreateQuery(sql, camposCondicion);
 	}
-
+/////////////////// sis
+	/***
+	 * Busca socio por codigo
+	 */
+	public Partner buscarPartnerPorCodigo(Integer codigoSocio) throws Exception{
+		String sql="SELECT PA FROM Partner PA WHERE PA.partId=:codigoSocio";
+		Map<String, Object> camposCondicion=new HashMap<String, Object>();
+		camposCondicion.put("codigoSocio", codigoSocio);
+		return findByCreateQuerySingleResult(sql, camposCondicion);
+	}
+	
 }

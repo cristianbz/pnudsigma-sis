@@ -125,5 +125,25 @@ public class ProjectFacade extends AbstractFacade<Project, Integer> {
 		}
 		return res;
 	}
+	
+	////sis
+	
+	/**
+	 * Carga todos los proyectos
+	 */
+
+	public List<Project> buscarTodosLosProyectos() throws Exception{
+		Map<String, Object> camposCondicion=new HashMap<String, Object>();
+		return findByCreateQuery("SELECT P FROM Project P WHERE P.projStatus=true AND P.projRegisterStatus='V'", camposCondicion);
+	}
+	
+	public List<Project> listarProyectosSocioImplementador(String ruc) throws Exception{
+		String sql="SELECT P FROM Project P WHERE P.projStatus=true AND P.projRegisterStatus='V' AND P.partId.partStatus = TRUE AND P.partId.partIdNumber=:ruc ORDER BY P.projTitle";
+		Map<String, Object> camposCondicion=new HashMap<String, Object>();
+		camposCondicion.put("ruc", ruc);
+		return findByCreateQuery(sql, camposCondicion);
+	}
+	
+	
 
 }

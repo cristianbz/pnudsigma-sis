@@ -18,9 +18,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaQuery;
 
 /**
  * 
@@ -202,5 +200,16 @@ public abstract class AbstractFacade<T, E> {
 		        Query q=getEntityManager().createQuery(jpql);
 		        return q.getResultList();
 		    }
-
+		    @SuppressWarnings("unchecked")
+			public T findByCreateQuerySingleResult(final String query_,
+					final Map<String, Object> parameters) {
+				Query query = getEntityManager().createQuery(query_);
+				if (parameters != null) {
+					Set<Entry<String, Object>> parameterSet = parameters.entrySet();
+					for (Entry<String, Object> entry : parameterSet) {
+						query.setParameter(entry.getKey(), entry.getValue());
+					}
+				}
+				return (T)query.getSingleResult();
+			}
 }

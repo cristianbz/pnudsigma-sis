@@ -9,7 +9,71 @@
 
 	<persistence-unit name="suiaPU" transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:jboss/datasources/SuiaDS</jta-data-source>				
+		<jta-data-source>java:jboss/datasources/SuiaDS</jta-data-source>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Action</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.ActionPlan</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Agreement</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Catalog</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.CatalogsType</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Cobenefit</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Component</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Document</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.FinancingAgreement</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.FundingSource</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.FundingSourcesNote</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.FundingSourcesOption</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.GeographicalLocations</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Goal</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.LegalFrameworkDoc</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Measure</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Meeting</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.MeetingsOption</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.MeetingsTotal</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Organization</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Participant</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Partner</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.PartnersRequirement</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.People</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Person</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Project</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.ProjectsAction</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.ProjectsActionsCompatibility</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.ProjectsAgreement</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.ProjectsDoc</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.ProjectsFinancing</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.ProjectsFinancingAgreement</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.ProjectsGeographicalArea</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.ProjectsRisk</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.ProjectsSpecificObjective</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.ProjectsStrategicPartner</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Safeguard</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.SpecificObjective</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.Tracing</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.TracingsAmount</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.TracingsKnowledgeManagement</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.TracingsProblem</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.TracingsProgress</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.User</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.AdvanceExecutionProjectGender</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.AdvanceExecutionSafeguards</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.AdvanceSectors</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.AdvanceSummary</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.CatalogTypes</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.Catalogs</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.DetailAdvanceGender</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.Documentslog</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.Indicators</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.ProjectGenderIndicator</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.ProjectQuestions</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.ProjectsGenderInfo</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.Questions</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.Sectors</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.TableResponses</class>
+		<class>ec.gob.ambiente.sigma.ejb.entidades.sis.ValueAnswers</class>
+		<class>ec.gob.ambiente.sigma.ejb.model.Menu</class>
+		<class>ec.gob.ambiente.sigma.ejb.model.MenuRole</class>
+		<class>ec.gob.ambiente.sigma.ejb.model.Role</class>
+		<class>ec.gob.ambiente.sigma.ejb.model.RolesUser</class>				
 	</persistence-unit>
 	
 </persistence>

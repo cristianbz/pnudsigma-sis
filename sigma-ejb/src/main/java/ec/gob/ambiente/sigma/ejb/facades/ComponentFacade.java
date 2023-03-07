@@ -56,5 +56,29 @@ public class ComponentFacade extends AbstractFacade<Component, Integer>{
 		}
 		
 	}
+	/////////////////////////////////////// sis
+	
+	/**
+	 * Lista de componentes Estrategicos
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Component> listaComponentesActivos()throws Exception{
+		String sql="SELECT C from Component C WHERE C.compStatus=TRUE AND C.compCode like 'CE%' ORDER BY C.compCode";	
+		Map<String, Object> camposCondicion=new HashMap<String, Object>();		
+		return findByCreateQuery(sql, camposCondicion);
+	}
+	/**
+	 * Listado de componentes activos por proyecto 
+	 * @param codigoProyecto Codigo del proyecto activo
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Component> listaComponentesActivos(int codigoProyecto)throws Exception{
+		String sql="SELECT C FROM Project PR, ActionPlan AP, Component C WHERE PR.acplId.acplId = AP.acplId AND AP.acplId = C.acplId.acplId AND PR.projId=:codigoProyecto AND c.compCode LIKE 'CE%'";
+		Map<String, Object> camposCondicion=new HashMap<String, Object>();
+		camposCondicion.put("codigoProyecto", codigoProyecto);
+		return findByCreateQuery(sql, camposCondicion);
+	}
 
 }

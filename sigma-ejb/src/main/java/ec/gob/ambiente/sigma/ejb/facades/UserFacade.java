@@ -21,6 +21,7 @@ import ec.gob.ambiente.sigma.ejb.dao.AbstractFacade;
 import ec.gob.ambiente.sigma.ejb.entidades.Organization;
 import ec.gob.ambiente.sigma.ejb.entidades.People;
 import ec.gob.ambiente.sigma.ejb.entidades.User;
+import ec.gob.ambiente.sigma.ejb.exceptions.DaoException;
 import ec.gob.ambiente.sigma.ejb.exceptions.ServiceException;
 import ec.gob.ambiente.sigma.ejb.services.RoleFacade;
 import ec.gob.ambiente.sigma.ejb.services.RolesUserFacade;
@@ -239,4 +240,39 @@ public class UserFacade extends AbstractFacade<User, Integer> implements Seriali
              return null;
          }
     }
+    /**
+	 * Validacion del usuario se envia como parametro un objeto usuario
+	 * @param usuario
+	 * @return
+	 * @throws DaoException
+	 */
+	public User validarUsuario(String usuario,String clave)throws DaoException{
+		try{
+			String sql="SELECT U FROM User U WHERE U.userName=:usuario AND U.userPassword=:clave AND U.userStatus=TRUE";
+			Map<String, Object> camposCondicion=new HashMap<String, Object>();
+			camposCondicion.put("usuario", usuario);
+			camposCondicion.put("clave", clave);
+			return findByCreateQuerySingleResult(sql, camposCondicion);
+		}catch(NoResultException e){
+			return null;
+		}catch(Exception e){
+			throw new DaoException();
+		}
+
+	}
+	
+	public List<User> listaUsuariosFiltrados(String filtro)throws Exception{
+		String sql="SELECT U FROM User U WHERE U.userName LIKE :filtro AND U.userStatus=TRUE";
+		Map<String, Object> camposCondicion=new HashMap<String, Object>();
+		camposCondicion.put("filtro","%"+filtro+"%");		
+		return findByCreateQuery(sql, camposCondicion);
+	}
+	
+	public List<User> findByRolEstrategicoImplementador(String filtro) throws Exception{
+		String sql = "SELECT u FROM RolesUser o,Users u WHERE  o.users.userId=u.userId AND o.role.roleName IN('SIS_socio_implementador','SIS_socio_estrategico') AND o.rousStatus = TRUE AND o.users.userName LIKE :filtro ";
+		Map<String, Object> camposCondicion=new HashMap<String, Object>();
+		camposCondicion.put("filtro","%"+filtro+"%");
+		return findByCreateQuery(sql, camposCondicion);	
+	}
+	
 }

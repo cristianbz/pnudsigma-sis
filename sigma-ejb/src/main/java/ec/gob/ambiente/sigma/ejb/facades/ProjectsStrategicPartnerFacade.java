@@ -7,10 +7,12 @@ import java.util.Map;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 
 import ec.gob.ambiente.sigma.ejb.dao.AbstractFacade;
 import ec.gob.ambiente.sigma.ejb.entidades.Project;
 import ec.gob.ambiente.sigma.ejb.entidades.ProjectsStrategicPartner;
+import ec.gob.ambiente.sigma.ejb.exceptions.DaoException;
 
 /**
  * Session Bean implementation class ProjectStrategicPartnerFacade
@@ -71,5 +73,69 @@ public class ProjectsStrategicPartnerFacade extends  AbstractFacade<ProjectsStra
 			}
 		}
 		return res;
+	}
+	
+	////////////sis///////////
+	/**
+	 * Consulta los partners del proyecto
+	 * @param codigoProyecto
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ProjectsStrategicPartner> listaPartnersActivos(Integer codigoProyecto)throws Exception{
+		String sql="SELECT PSP FROM ProjectsStrategicPartner PSP WHERE  PSP.projId.projId=:codigoProyecto AND PSP.pspaStatus=TRUE";
+		Map<String, Object> camposCondicion=new HashMap<String, Object>();
+		camposCondicion.put("codigoProyecto", codigoProyecto);
+		return findByCreateQuery(sql, camposCondicion);
+	}
+	/**
+	 * Obtiene el partner del proyecto
+	 * @param codigoProyecto
+	 * @param codigoPartner
+	 * @return
+	 * @throws DaoException
+	 */
+	public ProjectsStrategicPartner partnerDelProyecto(Integer codigoProyecto,Integer codigoPartner)throws DaoException{
+		try{
+			String sql="SELECT PSP FROM ProjectsStrategicPartner PSP WHERE  PSP.projId.projId=:codigoProyecto AND PSP.pspaId=:codigoPartner AND PSP.pspaStatus=TRUE";
+			Map<String, Object> camposCondicion=new HashMap<String, Object>();
+			camposCondicion.put("codigoProyecto", codigoProyecto);
+			camposCondicion.put("codigoPartner", codigoPartner);
+			return findByCreateQuerySingleResult(sql, camposCondicion);
+		}catch(NoResultException e){
+			return null;
+		}catch(Exception e){
+			throw new DaoException();
+		}
+	}
+	/**
+	 * Devuelve el partner estrategico
+	 * @param codigoPartner El codigo del partner estrategico
+	 * @return
+	 * @throws DaoException
+	 */
+	public ProjectsStrategicPartner partnerEstrategico(Integer codigoPartner)throws DaoException{
+		try{
+			String sql="SELECT PSP FROM ProjectsStrategicPartner PSP WHERE  PSP.pspaId=:codigoPartner AND PSP.pspaStatus=TRUE";
+			Map<String, Object> camposCondicion=new HashMap<String, Object>();			
+			camposCondicion.put("codigoPartner", codigoPartner);
+			return findByCreateQuerySingleResult(sql, camposCondicion);
+		}catch(NoResultException e){
+			return null;
+		}catch(Exception e){
+			throw new DaoException();
+		}
+	}
+	/**
+	 * Devuelve los proyectos del socio estrategico
+	 * @param rucSocio  RUC del socio estrategico
+	 * @return Lista de proyectos
+	 * @throws Exception
+	 */
+	public List<ProjectsStrategicPartner> listaProyectosSocioEstrategico(String rucSocio)throws Exception{
+		String sql="SELECT PSP FROM ProjectsStrategicPartner PSP,Project P, Partner PA WHERE PSP.projId.projId = P.projId  AND PSP.partId.partId = PA.partId AND PA.partIdNumber=:rucSocio AND PSP.pspaStatus=TRUE AND P.projRegisterStatus='V' AND P.projStatus=TRUE ORDER BY P.projTitle";
+		Map<String, Object> camposCondicion=new HashMap<String, Object>();
+		camposCondicion.put("rucSocio", rucSocio);
+		return findByCreateQuery(sql, camposCondicion);
 	}
 }

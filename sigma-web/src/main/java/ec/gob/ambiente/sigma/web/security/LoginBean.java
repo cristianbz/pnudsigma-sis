@@ -2,6 +2,7 @@ package ec.gob.ambiente.sigma.web.security;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,10 +20,13 @@ import lombok.Setter;
 import org.primefaces.model.menu.MenuModel;
 
 import ec.gob.ambiente.sigma.ejb.entidades.Organization;
+import ec.gob.ambiente.sigma.ejb.entidades.Project;
+import ec.gob.ambiente.sigma.ejb.entidades.ProjectsStrategicPartner;
 import ec.gob.ambiente.sigma.ejb.entidades.User;
 import ec.gob.ambiente.sigma.ejb.facades.OrganizationFacade;
 import ec.gob.ambiente.sigma.ejb.facades.PeopleFacade;
 import ec.gob.ambiente.sigma.ejb.facades.UserFacade;
+import ec.gob.ambiente.sigma.ejb.model.RolesUser;
 //import ec.gob.ambiente.suia.enlisy.services.UserFacade;
 import ec.gob.ambiente.sigma.web.utils.JsfUtil;
 
@@ -62,6 +67,22 @@ public class LoginBean implements Serializable {
 	
 	
 	private int tiempoSession;
+	@Getter
+	@Setter
+	private List<ProjectsStrategicPartner> listaProyectosDelSocioEstrategico;
+	@Getter
+	@Setter
+	private List<Project> listaProyectosDelSocioImplementador;
+	@Getter
+	@Setter
+	private List<RolesUser> listaRolesUsuario;
+	@Getter
+	@Setter
+	private HttpSession sesion;
+	@Getter
+	@Setter
+	//1 Admin  2 Socio Implementador  3 Socio estrategico
+	private int tipoRol;
 
 	@PostConstruct
 	public void init() {
