@@ -48,6 +48,7 @@ public class BitacoradocumentosBean implements Serializable{
 	private String valorFiltroInstitucion;
 	private List<String> listadoPDIProgramas;
 	private List<String> listadoPDIProgramasSeleccionados;
+	private List<String> listadoPDIProgramasSeleccionadosAux;
 	private String pdiSeleccionado;
 }
 

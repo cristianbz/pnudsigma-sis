@@ -56,7 +56,7 @@ public class CatalogsFacade extends AbstractFacade<Catalogs,Integer>{
 	 * @throws Exception
 	 */
 	public List<Catalogs> buscaTodosCatalogos() throws Exception{
-		String sql="SELECT C FROM Catalogs C ORDER BY C.catalogsType.catyId,C.cataOrder";
+		String sql="SELECT C FROM Catalogs C ORDER BY C.catalogTypes.catyId,C.cataOrder";
 		Map<String, Object> camposCondicion=new HashMap<String, Object>();
 		
 		return findByCreateQuery(sql, camposCondicion);
@@ -73,7 +73,7 @@ public class CatalogsFacade extends AbstractFacade<Catalogs,Integer>{
 	
 	public Catalogs catalogoOtrosDeLineaAccion(String catalogo,int posicion)throws DaoException{
 		try{
-			String sql="SELECT C FROM Catalogs C WHERE C.catalogsType.catyMnemonic=:catalogo AND C.cataNumber=:posicion AND C.cataStatus = TRUE";
+			String sql="SELECT C FROM Catalogs C WHERE C.catalogTypes.catyMnemonic=:catalogo AND C.cataNumber=:posicion AND C.cataStatus = TRUE";
 			Map<String, Object> camposCondicion=new HashMap<String, Object>();		
 			camposCondicion.put("catalogo", catalogo);
 			camposCondicion.put("posicion", posicion);

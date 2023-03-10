@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="ec.gob.ambiente.sigma.web.utils.sis.EncriptarSHA"/>
-<fullyQualifiedTypeName name="ec.gob.ambiente.sigma.web.utils.sis.enumeraciones.TipoRolesUsuarioEnum"/>
-<fullyQualifiedTypeName name="java.util.Map"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
-<fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.exceptions.DaoException"/>
-<fullyQualifiedTypeName name="ec.gob.ambiente.sigma.web.beans.SeguimientoGeneroBean"/>
-<fullyQualifiedTypeName name="ec.gob.ambiente.sigma.web.beans.LoginBean"/>
 <fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.facades.sis.DetailAdvanceGenderFacade"/>
 <fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.facades.sis.TableResponsesFacade"/>
 <fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.facades.sis.ValueAnswersFacade"/>
@@ -17,7 +10,6 @@
 <fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.facades.sis.AdvanceExecutionProjectGenderFacade"/>
 <fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.facades.ComponentFacade"/>
 <fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.facades.sis.ProjectsGenderInfoFacade"/>
-<fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.facades.ProjectsStrategicPartnerFacade"/>
 <fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.facades.sis.QuestionsFacade"/>
 <fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.entidades.Component"/>
 <fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.entidades.sis.AdvanceExecutionSafeguards"/>
@@ -60,4 +52,12 @@
 <fullyQualifiedTypeName name="ec.gob.ambiente.sigma.web.security.LoginBean"/>
 <fullyQualifiedTypeName name="lombok.Getter"/>
 <fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.entidades.CatalogsType"/>
+<fullyQualifiedTypeName name="javax.persistence.NamedQueries"/>
+<fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.entidades.sis.CatalogTypes"/>
+<fullyQualifiedTypeName name="ec.gob.ambiente.sigma.web.utils.sis.enumeraciones.TipoRolesUsuarioEnum"/>
+<fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.facades.ProjectFacade"/>
+<fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.facades.ProjectsStrategicPartnerFacade"/>
+<fullyQualifiedTypeName name="javax.persistence.NamedQuery"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="ec.gob.ambiente.sigma.ejb.entidades.sis.Documentslog"/>
 </qualifiedTypeNameHistroy>

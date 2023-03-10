@@ -75,6 +75,22 @@ public class Documentslog implements Serializable{
 	
 	@Getter
 	@Setter
+	@Column(name ="dclo_sender_charge")
+	private String dcloSenderCharge;
+	
+	@Getter
+	@Setter
+	@Column(name ="dclo_charge")
+	private String dcloCharge;
+	
+	
+	@Getter
+	@Setter
+	@Column(name ="dclo_referring_institution")
+	private String dcloReferringInstitution;
+	
+	@Getter
+	@Setter
 	@Column(name ="dclo_creation_date")
 	private Date dcloCreationDate;
 	

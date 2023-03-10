@@ -8777,7 +8777,7 @@ public class SeguimientoSalvaguardaController  implements Serializable{
 			Map<String,ProjectQuestions> mapaTemp=new HashMap<String,ProjectQuestions>();
 			List<ProjectQuestions> listaSalvaguardasAsignadas= new ArrayList<>();
 			List<Safeguard> listaSalvaguardas= new ArrayList<>();
-			if(adex.getProjects()==null)
+			if(adex.getProjectsStrategicPartners()!=null)
 				listaSalvaguardasAsignadas = getProjectQuestionsFacade().listaPreguntasPartnerSeleccionadas(adex.getProjectsStrategicPartners().getPspaId());
 			else
 				listaSalvaguardasAsignadas = getProjectQuestionsFacade().listaPreguntasProyectoSeleccionadas(adex.getProjects().getProjId());

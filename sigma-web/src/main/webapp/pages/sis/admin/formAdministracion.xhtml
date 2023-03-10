@@ -11,10 +11,6 @@
 	<link rel="stylesheet" type="text/css"
 		href="${facesContext.externalContext.requestContextPath}/resources/css/primeflex/primeflex.css" />
 
-	<h:outputStylesheet library="webjars"
-		name="font-awesome/5.12.0/css/all.min-jsf.css" />
-	<h:outputStylesheet library="webjars"
-		name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
 	<script>
 	function goToAnchor(nombre) {
 		
@@ -542,8 +538,8 @@
 							rows="10" paginator="true" rowKey="#{cata.cataId}"	filteredValue="#{administracionBean.listaCatalogosFiltrados}"						 
 							var="cata">
 							<p:column headerText="#{etiquetas['tipo']}" groupRow="true" filterMatchMode="contains" style="width:100px;"
-								filterBy="#{cata.catalogsType.catyDescription}">
-								#{cata.catalogsType.catyDescription}
+								filterBy="#{cata.catalogTypes.catyDescription}">
+								#{cata.catalogTypes.catyDescription}
 							</p:column> 
 							<p:column headerText="#{etiquetas['orden']}" 
 								style="width:30px;">
@@ -758,7 +754,7 @@
 				<h:panelGrid style="margin:0 auto;">
 					<p:commandButton id="btnVolverInicio" 
 						value="#{botones['volverInicio']}" icon="fa fa-home"
-						action="#{sesionController.redireccionarAPagina('','inicio')}"
+						action="#{ses.redireccionarAPagina('','inicio')}"
 						process="@this" />
 				</h:panelGrid>
 			</div>

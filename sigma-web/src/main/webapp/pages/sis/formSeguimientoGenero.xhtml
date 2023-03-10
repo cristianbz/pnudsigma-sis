@@ -14,10 +14,7 @@
 	<link rel="stylesheet" type="text/css"
 		href="${facesContext.externalContext.requestContextPath}/resources/css/primeflex/primeflex.css" />
 	
-	<h:outputStylesheet library="webjars"
-		name="font-awesome/5.12.0/css/all.min-jsf.css" />
-	<h:outputStylesheet library="webjars"
-		name="font-awesome/5.12.0/css/v4-shims.min-jsf.css" />
+	
 	<script type="text/javascript" src="../resources/js/atras.js"></script>	
 	<script type="text/javascript"
 		src="#{request.contextPath}/resources/js/calendario/calendar_es.js"></script>
@@ -568,7 +565,7 @@
 							<p:dataTable value="#{seguimientoGeneroBean.listaLineasGenero}" id="tablaAvancesGenero"
 								var="genero" style="font-size:10px !important;">
 								<p:column groupRow="true" headerText="#{etiquetas['temas']}">
-									<p:outputLabel value="#{genero.projectGenderIndicator.projectsGenderInfo.cataId.catalogsType.catyDescription}" style="font-size:10px !important;"/>
+									<p:outputLabel value="#{genero.projectGenderIndicator.projectsGenderInfo.cataId.catalogTypes.catyDescription}" style="font-size:10px !important;"/>
 								</p:column>
 								<p:column groupRow="true" headerText="#{etiquetas['lineaAccion']}">
 									<p:outputLabel value="#{genero.projectGenderIndicator.projectsGenderInfo.cataId.cataText2.equals('Otro')?genero.projectGenderIndicator.projectsGenderInfo.pginOtherLine:genero.projectGenderIndicator.projectsGenderInfo.cataId.cataText2}" style="font-size:10px !important;"/>									
