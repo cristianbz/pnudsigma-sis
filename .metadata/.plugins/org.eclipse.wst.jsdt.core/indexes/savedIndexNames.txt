@@ -1,7 +1,0 @@
-INDEX VERSION 1.3+/home/proamazonia/workspaceSigmaSis/pnudsigma-sis/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
-102430066.index
-3982067271.index
-2592564310.index
-3340490869.index
-3182416409.index
-4049724534.index
